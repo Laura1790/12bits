@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: 12bits
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 1 --threads 8 -b 0.0.0.0:$PORT app:app
+    envVars:
+      - key: BITS_ADMIN_KEY
+        generateValue: true
+      - key: BITS_DB
+        value: /var/data/12bits.sqlite
+    disk:
+      name: datos
+      mountPath: /var/data
+      sizeGB: 1
